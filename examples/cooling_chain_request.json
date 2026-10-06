@@ -1,0 +1,35 @@
+{
+  "top_event": "BACKUP_COOLING_FAIL",
+  "basic_faults": [
+    {"id": "POWER_LOSS", "probability": "0.001"},
+    {"id": "GEN_FAIL", "probability": "0.01"},
+    {"id": "SWG_A_OPEN", "probability": "0.005"},
+    {"id": "SWG_B_OPEN", "probability": "0.005"},
+    {"id": "CHILLER_A_FAIL", "probability": "0.02"},
+    {"id": "PUMP_A_FAIL", "probability": "0.02"},
+    {"id": "VLV_A_FAIL", "probability": "0.01"},
+    {"id": "CHILLER_B_FAIL", "probability": "0.02"},
+    {"id": "PUMP_B_FAIL", "probability": "0.02"},
+    {"id": "VLV_B_FAIL", "probability": "0.01"},
+    {"id": "TCU_A_FAIL", "probability": "0.01"},
+    {"id": "TCU_B_FAIL", "probability": "0.01"},
+    {"id": "TCU_C_FAIL", "probability": "0.01"},
+    {"id": "CTRL_BUS_FAIL", "probability": "0.003"},
+    {"id": "SENSOR_BIAS", "probability": "0.004"}
+  ],
+  "gates": [
+    {"id": "POWER_FAIL", "type": "AND",
+     "inputs": ["POWER_LOSS", "GEN_FAIL"]},
+    {"id": "TRAIN_A_FAIL", "type": "AND",
+     "inputs": ["SWG_A_OPEN", "CHILLER_A_FAIL", "PUMP_A_FAIL", "VLV_A_FAIL"]},
+    {"id": "TRAIN_B_FAIL", "type": "AND",
+     "inputs": ["SWG_B_OPEN", "CHILLER_B_FAIL", "PUMP_B_FAIL", "VLV_B_FAIL"]},
+    {"id": "TCU_2_OF_3", "type": "KOFN", "k": 2,
+     "inputs": ["TCU_A_FAIL", "TCU_B_FAIL", "TCU_C_FAIL"]},
+    {"id": "CTRL_FAIL", "type": "AND",
+     "inputs": ["CTRL_BUS_FAIL", "SENSOR_BIAS"]},
+    {"id": "BACKUP_COOLING_FAIL", "type": "OR",
+     "inputs": ["POWER_FAIL", "TRAIN_A_FAIL", "TRAIN_B_FAIL",
+                "TCU_2_OF_3", "CTRL_FAIL"]}
+  ]
+}

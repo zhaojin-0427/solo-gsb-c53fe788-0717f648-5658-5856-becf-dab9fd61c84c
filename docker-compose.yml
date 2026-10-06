@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    image: cooling-chain-fta:latest
+    container_name: cooling-chain-fta
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
