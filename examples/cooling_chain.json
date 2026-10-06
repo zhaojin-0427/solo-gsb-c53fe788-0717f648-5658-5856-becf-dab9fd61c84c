@@ -1,0 +1,19 @@
+{
+  "top_event": "G_top",
+  "basic_events": [
+    {"id": "Pow", "probability": "0.005"},
+    {"id": "P1",  "probability": "0.01"},
+    {"id": "P2",  "probability": "0.02"},
+    {"id": "P3",  "probability": "0.04"},
+    {"id": "CTS", "probability": "0.001"},
+    {"id": "HXS", "probability": "0.002"},
+    {"id": "E3",  "probability": "0.03"},
+    {"id": "E7",  "probability": "0.07"}
+  ],
+  "gates": [
+    {"id": "G_pumps",   "type": "KOFN", "k": 2, "inputs": ["P1", "P2", "P3"]},
+    {"id": "G_branchA", "type": "AND",  "inputs": ["Pow", "G_pumps", "CTS", "E3"]},
+    {"id": "G_branchB", "type": "AND",  "inputs": ["Pow", "G_pumps", "HXS", "E7", "E3"]},
+    {"id": "G_top",     "type": "OR",   "inputs": ["G_branchA", "G_branchB"]}
+  ]
+}
